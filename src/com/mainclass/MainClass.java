@@ -36,6 +36,11 @@ public class MainClass {
         }
     }
 
+    /**
+     * Set pixels by txt file content.
+     * @param img
+     * @param myImage
+     */
     public static void setPixels(BufferedImage img, MyImage myImage)
     {
         Colors colors = new Colors();
