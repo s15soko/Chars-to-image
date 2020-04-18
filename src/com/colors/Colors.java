@@ -8,7 +8,7 @@ public class Colors {
     /**
      * Default color for char when color key is not found in Map
      */
-    String defaultCharColor = "F0F0F0";
+    private String defaultCharColor = "F0F0F0";
 
     /**
      * Get colors for each char
