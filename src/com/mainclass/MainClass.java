@@ -12,6 +12,7 @@ import java.util.Map;
 
 public class MainClass {
 
+
     public static void main(String[] args) {
         createFile();
     }
@@ -20,25 +21,35 @@ public class MainClass {
      * Create an image file
      */
     public static void createFile() {
-        // STEP 1
+        MyImage myImage = new MyImage();
+        BufferedImage img = new BufferedImage(myImage.getRequireImageWidth(), myImage.getRequireImageHeight(), BufferedImage.TYPE_INT_ARGB);
+        File f = null;
+
+        setPixels(img, myImage);
+
+        try {
+            f = new File(myImage.getFileName() + "." + myImage.getFileFormat());
+            ImageIO.write(img, myImage.getFileFormat(), f);
+            System.out.println("Image file has been created successfully.");
+        } catch (IOException e){
+            System.out.println("An error occurred during creating file, error: " + e);
+        }
+    }
+
+    public static void setPixels(BufferedImage img, MyImage myImage)
+    {
         Colors colors = new Colors();
         Map<String, String> colorsMap = colors.getCharsColors();
+
+        int requiredImageHeight = myImage.getRequireImageHeight();
+        int requiredImageWidth = myImage.getRequireImageWidth();
 
         Words words = new Words();
         words.scanFile();
         Map<Integer, String> fileContent = words.getFileContent();
 
-        // STEP 2
-        MyImage myImage = new MyImage();
-        int requiredImageHeight = myImage.getRequireImageHeight();
-        int requiredImageWidth = myImage.getRequireImageWidth();
-
-        BufferedImage img = new BufferedImage(myImage.getRequireImageWidth(), myImage.getRequireImageHeight(), BufferedImage.TYPE_INT_ARGB);
-        File f = null;
-
-        // STEP 3 - Set pixels
         int stringlineWidth = 0;
-        String lineValue = "";
+        String lineValue = null;
         String mycol = null;
         Color col = null;
 
@@ -69,14 +80,6 @@ public class MainClass {
 
                 img.setRGB(w, h, rgb);
             }
-        }
-
-        try {
-            f = new File(myImage.getFileName() + "." + myImage.getFileFormat());
-            ImageIO.write(img, myImage.getFileFormat(), f);
-            System.out.println("Image file has been created successfully.");
-        } catch (IOException e){
-            System.out.println("An error occurred during creating file, error: " + e);
         }
     }
 }
