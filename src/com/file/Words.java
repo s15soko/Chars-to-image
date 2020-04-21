@@ -16,6 +16,14 @@ public class Words {
 
     public Words()
     {
+        createFile();
+    }
+
+    /**
+     * Create file if not exists
+     */
+    public void createFile()
+    {
         try{
             File tmpDir = new File(fileName);
 
@@ -29,38 +37,39 @@ public class Words {
 
     /**
      * Scan file, get the file content, number of lines and max width of row.
-     * @throws FileNotFoundException
      */
     public void scanFile() {
         fileContent = new HashMap<Integer, String>();
 
+        int fileTxtMaxWidth = 0;
+        int fileTxtLines = 0;
         Scanner myScanner = null;
+
         try {
             myScanner = new Scanner(new File(fileName));
+
+            while(myScanner.hasNextLine()){
+                String str = myScanner.nextLine();
+                fileContent.put(fileTxtLines, str);
+
+                int counter = 0;
+                for(int sk = 0; sk < str.length(); sk++){
+                    counter++;
+                }
+
+                if(counter > fileTxtMaxWidth){
+                    fileTxtMaxWidth = counter;
+                }
+
+                fileTxtLines++;
+            }
+
+            myScanner.close();
+            fileLines = fileTxtLines;
+            fileMaxLineWidth = fileTxtMaxWidth;
         } catch (FileNotFoundException e){
             // error
         }
-
-        int fileTxtMaxWidth = 0;
-        int fileTxtLines = 0;
-        while(myScanner.hasNextLine()){
-            String str = myScanner.nextLine();
-            fileContent.put(fileTxtLines, str);
-
-            int counter = 0;
-            for(int sk = 0; sk < str.length(); sk++){
-                counter++;
-            }
-
-            if(counter > fileTxtMaxWidth){
-                fileTxtMaxWidth = counter;
-            }
-
-            fileTxtLines++;
-        }
-
-        fileLines = fileTxtLines;
-        fileMaxLineWidth = fileTxtMaxWidth;
     }
 
     /**
